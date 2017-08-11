@@ -2,7 +2,8 @@ FROM ethereum/client-go:v1.6.7
 
 ENV NODE_TYPE=boot
 
-ADD start.sh /start.sh
+ADD start.sh /
+ADD config.toml /
 RUN chmod a+rx /start.sh
 
 VOLUME /config

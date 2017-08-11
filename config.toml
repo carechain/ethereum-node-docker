@@ -1,0 +1,5 @@
+[Node]
+HTTPHost = "0.0.0.0"
+HTTPPort = 8545
+HTTPCors = ["*"]
+HTTPModules = ["eth", "net", "web3", "shh"]
