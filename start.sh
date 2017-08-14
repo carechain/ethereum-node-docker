@@ -16,6 +16,7 @@
 : ${RPCPORT:=8545}
 : ${RPCAPI:="[\"eth\", \"net\", \"web3\", \"shh\"]"}
 : ${RPCCORSDOMAIN:="[\"*\"]"}
+: ${ACCOUNT_FILE:=""}
 
 nodetype=$1
 
@@ -24,8 +25,7 @@ case $nodetype in
         TYPE_ARGS="--lightserv $LIGHTSERV --lightpeers $LIGHTPEERS --v5disc"
     ;;
     signer)
-        TYPE_ARGS="--unlock 0 --password /config/signer.pass --mine --targetgaslimit $TARGETGASLIMIT --gasprice $GASPRICE"
-        mkdir -p /root/.ethereum/keystore/ && cp /config/signer.json /root/.ethereum/keystore/
+        TYPE_ARGS="--mine --targetgaslimit $TARGETGASLIMIT --gasprice $GASPRICE"
     ;;
     api)
 #        TYPE_ARGS="--rpc --rpcaddr 0.0.0.0 --rpcport $RPCPORT --rpcapi $RPCAPI --rpccorsdomain $RPCCORSDOMAIN --shh"
@@ -41,6 +41,12 @@ GETH_ARGS="--networkid $NETWORK_ID --port $PORT --cache $CACHE --maxpeers $MAXPE
 if [ ! -z "$BOOTNODES" ]
 then
     GETH_ARGS="$GETH_ARGS --bootnodes $BOOTNODES"
+fi
+
+if [ ! -z "$ACCOUNT_FILE" ]
+then
+    mkdir -p /root/.ethereum/keystore/ && cp /config/${ACCOUNT_FILE}.json /root/.ethereum/keystore/
+    GETH_ARGS="$GETH_ARGS --unlock 0 --password /config/${ACCOUNT_FILE}.pass"
 fi
 
 echo "NODETYPE: $nodetype"
