@@ -4,9 +4,9 @@
 : ${PORT:=30303}
 : ${CACHE:=512}
 : ${MAXPEERS:=512}
-: ${ETHSTATS_NAME:="name"}
-: ${ETHSTATS_SECRET:="secret"}
-: ${ETHSTATS_HOST:="host"}
+: ${ETHSTATS_NAME:=""}
+: ${ETHSTATS_SECRET:=""}
+: ${ETHSTATS_HOST:=""}
 : ${ETHSTATS_PORT:=80}
 : ${BOOTNODES:=""}
 : ${LIGHTSERV:=50}
@@ -36,7 +36,12 @@ case $nodetype in
         exit 1
 esac
 
-GETH_ARGS="--networkid $NETWORK_ID --port $PORT --cache $CACHE --maxpeers $MAXPEERS $TYPE_ARGS --ethstats $ETHSTATS_NAME:$ETHSTATS_SECRET@$ETHSTATS_HOST:$ETHSTATS_PORT"
+GETH_ARGS="--networkid $NETWORK_ID --port $PORT --cache $CACHE --maxpeers $MAXPEERS $TYPE_ARGS"
+
+if [ ! -z "$ETHSTATS_HOST" ]
+then
+    GETH_ARGS="$GETH_ARGS --ethstats $ETHSTATS_NAME:$ETHSTATS_SECRET@$ETHSTATS_HOST:$ETHSTATS_PORT"
+fi
 
 if [ ! -z "$BOOTNODES" ]
 then
