@@ -1,4 +1,4 @@
-FROM ethereum/client-go:v1.6.7
+FROM ethereum/client-go:v1.7.0
 
 ENV NODE_TYPE=boot
 
